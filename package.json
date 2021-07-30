@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cypress:open": "node_modules/.bin/cypress open",
-    "cypress:run": "node_modules/.bin/cypress run --spec '**/*.spec.js'"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/i-stonkaite/api-demo-tests#readme",
   "devDependencies": {
-    "cypress": "^8.1.0"
+    "cypress": "^8.1.0",
+    "underscore": "^1.13.1"
   }
 }
