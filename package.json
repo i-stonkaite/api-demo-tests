@@ -1,0 +1,24 @@
+{
+  "name": "api-demo-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "node_modules/.bin/cypress open",
+    "cypress:run": "node_modules/.bin/cypress run --spec '**/*.spec.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i-stonkaite/api-demo-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/i-stonkaite/api-demo-tests/issues"
+  },
+  "homepage": "https://github.com/i-stonkaite/api-demo-tests#readme",
+  "devDependencies": {
+    "cypress": "^8.1.0"
+  }
+}
