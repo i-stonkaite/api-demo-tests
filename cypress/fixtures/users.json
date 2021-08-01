@@ -3,6 +3,30 @@
     "getUsers": {
       "method": "GET",
       "url": "/users"
-    }
+    },
+    "errorResponseEmailHasBeenTaken": [
+      {
+        "field": "email",
+        "message": "has already been taken"
+      }
+    ],
+    "errorResponseBlankInputFields": [
+      {
+        "field": "email",
+        "message": "can't be blank"
+      },
+      {
+        "field": "name",
+        "message": "can't be blank"
+      },
+      {
+        "field": "gender",
+        "message": "can't be blank"
+      },
+      {
+        "field": "status",
+        "message": "can't be blank"
+      }
+    ]
   }
 }
