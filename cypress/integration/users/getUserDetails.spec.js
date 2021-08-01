@@ -1,43 +1,61 @@
+const getUsersEndpoint = require('../../fixtures/users.json').data.getUsers;
+
 describe('Given the "Get user details" endpoint', () => {
   context('When I send GET /users request', () => {
-    it('Then max response time should be less than 200 ms', () => {
-      // cy.request({
-      //   method: 'GET',
-      //   url: '/users',
-      // }).should((response) => {
-      //   expect(response.duration).to.not.be.greaterThan(200);
-      // });
+    xit('Then max response time should be less than 200 ms', () => {
+      cy.request(getUsersEndpoint).should((response) => {
+        expect(response.duration).to.not.be.greaterThan(200);
+      });
     });
 
-    it('Then HTTP status code should be 200', () => {
-      cy.request({
-        method: 'GET',
-        url: '/users',
-      }).should((response) => {
+    xit('Then HTTP status code should be 200', () => {
+      cy.request(getUsersEndpoint).should((response) => {
         expect(response.status).eq(200);
       });
     });
 
-    it('Then a single user should be found by their unique ID', () => {
-      cy.request({
-        method: 'GET',
-        url: '/users?id=1951',
-      }).should((response) => {
-        expect(response.status).eq(200);
-        expect(response.body.data.length).eq(1);
-      });
+    // an ID of a valid already existing value is taken for the test to avoid hardcoding
+    xit('Then a single user should be found by their unique ID', () => {
+      cy.request(getUsersEndpoint)
+        .should((response) => {
+          expect(response.status).eq(200);
+          var idOfTheFirstUser = cy.get(response.body.data[1].id);
+        })
+        .then((idOfTheFirstUser) => {
+          cy.request({
+            method: 'GET',
+            url: `/users?id=${idOfTheFirstUser[0]}`,
+          }).should((response) => {
+            expect(response.status).eq(200);
+            expect(response.body.data.length).eq(1);
+          });
+        });
     });
 
-    it('Then every user object should contain 5 keys: id, name, email, gender, status', () => {
-      cy.request({
-        method: 'GET',
-        url: '/users',
-      }).should((response) => {
+    // an email of a valid already existing value is taken for the test to avoid hardcoding
+    xit('Then a single user should be found by their unique email address', () => {
+      cy.request(getUsersEndpoint)
+        .should((response) => {
+          expect(response.status).eq(200);
+          cy.log(response.body.data[1].email);
+          var emailOfTheFirstUser = cy.get(response.body.data[1]);
+        })
+        .then((emailOfTheFirstUser) => {
+          emailOfTheFirstUser = emailOfTheFirstUser[0].email;
+          cy.request({
+            method: 'GET',
+            url: `/users?email=${emailOfTheFirstUser}`,
+          }).should((response) => {
+            expect(response.status).eq(200);
+            expect(response.body.data.length).eq(1);
+          });
+        });
+    });
+
+    xit('Then every user object should contain 5 keys: id, name, email, gender, status', () => {
+      cy.request(getUsersEndpoint).should((response) => {
         expect(response.status).eq(200);
-        // cy.log(response.body.data[0].id);
         Cypress._.each(response.body.data, (user) => {
-          // expect(user.id).to.be.a('number').and.to.not.be.null.and.to.not.be
-          //   .undefined;
           expect(user).to.have.all.keys(
             'id',
             'name',
@@ -49,11 +67,9 @@ describe('Given the "Get user details" endpoint', () => {
       });
     });
 
-    it('Then every user object returned should be populated with valid data', () => {
-      cy.request({
-        method: 'GET',
-        url: '/users',
-      }).should((response) => {
+    // iterated though the every object returned to make sure it is populated with data of a chosen type
+    xit('Then every user object returned should be populated with valid data', () => {
+      cy.request(getUsersEndpoint).should((response) => {
         expect(response.status).eq(200);
         Cypress._.each(response.body.data, (user) => {
           expect(user.id).to.be.a('number').and.to.not.be.null.and.to.not.be
@@ -72,61 +88,5 @@ describe('Given the "Get user details" endpoint', () => {
         });
       });
     });
-
-    //   it('Then the list of all registered users should be returned', () => {
-    //     cy.request({
-    //       method: 'GET',
-    //       url: '/users',
-    //     }).should((response) => {
-    //       let numOfPages = parseInt(
-    //         JSON.stringify(response.body.meta.pagination.pages)
-    //       );
-    //       let apiCountOfTotalUsers = parseInt(
-    //         JSON.stringify(response.body.meta.pagination.total)
-    //       );
-
-    //       function getTotalUserCount() {
-    //         let totalNumOfUsersInResponses = 0;
-    //         for (let i = 1; i <= parseInt(3); i++) {
-    //           // for (let i = 1; i <= parseInt(numOfPages); i++) {
-    //           cy.request({
-    //             method: 'GET',
-    //             url: `/users?page=${i}`,
-    //           }).then((response) => {
-    //             totalNumOfUsersInResponses += response.body.data.length;
-    //           });
-    //           cy.log(totalNumOfUsersInResponses);
-    //         }
-    //         return totalNumOfUsersInResponses;
-    //       }
-    //       // cy.log(getTotalUserCount());
-    //       // expect(getTotalUserCount()).eq(apiCountOfTotalUsers);
-    //     });
-    //   });
-    // });
-
-    // context('When I send GET /users', () => {
-    //   it('Then the list of all registered users should be returned', () => {
-    //     cy.request({
-    //       method: 'GET',
-    //       url: '/users',
-    //     }).should((response) => {
-    //       // expect(response.status)
-    //       //   .to.eq(200)
-    //       Cypress._.each(response.body.data, (data) => {
-    //         expect(response.body.id).to.not.be.null;
-    //         expect(data).to.have.all.keys(
-    //           'id',
-    //           'name',
-    //           'email',
-    //           'gender',
-    //           'status'
-    //         );
-    //       });
-    //       //   });
-    //     });
-    //   });
-    // });
-    // });
   });
 });
