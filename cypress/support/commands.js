@@ -13,10 +13,11 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-const randomNum = getRandomInt(1000);
+const randomNum = getRandomInt(100000);
 const headers = { 'content-type': 'application/json' };
 const randomisedEmail = `testEmail${randomNum}@email.com`;
-const randomisedUpdatedEmail = `updated${randomisedEmail}`;
+// const randomisedUpdatedEmail = `updated${randomisedEmail}`;
+const updatedEmail = 'changes-were-made@a.a';
 
 const bearerToken = {
   bearer: Cypress.env('API_KEY'),
@@ -29,10 +30,10 @@ const getUserByRandomisedEmail = {
 
 const getUserByUpdatedEmail = {
   method: 'GET',
-  url: `/users?email=${randomisedUpdatedEmail}`,
+  url: `/users?email=${updatedEmail}`,
 };
 
-const postWithValidTokenAndEmptyData = {
+const createUserWithValidTokenAndEmptyData = {
   method: 'POST',
   url: '/users',
   auth: bearerToken,
@@ -47,7 +48,7 @@ const postWithValidTokenAndEmptyData = {
   failOnStatusCode: false,
 };
 
-const postWithValidData = {
+const createUserWithValidData = {
   method: 'POST',
   url: '/users',
   auth: bearerToken,
@@ -62,7 +63,7 @@ const postWithValidData = {
   failOnStatusCode: false,
 };
 
-const postWithInvalidToken = {
+const createUserWithInvalidToken = {
   method: 'POST',
   url: '/users',
   body: {
@@ -76,12 +77,12 @@ const postWithInvalidToken = {
   failOnStatusCode: false,
 };
 
-Cypress.Commands.add('postWithValidTokenAndEmptyData', () => {
-  cy.request(postWithValidTokenAndEmptyData);
+Cypress.Commands.add('createUserWithValidTokenAndEmptyData', () => {
+  cy.request(createUserWithValidTokenAndEmptyData);
 });
 
-Cypress.Commands.add('postWithValidData', () => {
-  cy.request(postWithValidData);
+Cypress.Commands.add('createUserWithValidData', () => {
+  cy.request(createUserWithValidData);
 });
 
 Cypress.Commands.add('getUserByRandomisedEmail', () => {
@@ -92,20 +93,40 @@ Cypress.Commands.add('getUserByUpdatedEmail', () => {
   cy.request(getUserByUpdatedEmail);
 });
 
-Cypress.Commands.add('postWithInvalidToken', () => {
-  cy.request(postWithInvalidToken);
+Cypress.Commands.add('createUserWithInvalidToken', () => {
+  cy.request(createUserWithInvalidToken);
 });
 
 Cypress.Commands.add('deleteUserById', () => {
   cy.getUserByRandomisedEmail()
     .then((response) => {
       expect(response.status).eq(200);
-      const getCreatedUserId = cy.get(response.body.data[0].id);
+      const userId = cy.get(response.body.data[0].id);
     })
-    .then((getCreatedUserId) => {
+    .then((userId) => {
       cy.request({
         method: 'DELETE',
-        url: `/users/${getCreatedUserId[0]}`,
+        url: `/users/${userId[0]}`,
+        auth: bearerToken,
+        headers: headers,
+        timeout: 120000,
+        failOnStatusCode: false,
+      }).should((response) => {
+        expect(response.status).eq(204);
+      });
+    });
+});
+
+Cypress.Commands.add('deleteUserByUpdatedEmail', () => {
+  cy.getUserByUpdatedEmail()
+    .then((response) => {
+      expect(response.status).eq(200);
+      const userId = cy.get(response.body.data[0].id);
+    })
+    .then((userId) => {
+      cy.request({
+        method: 'DELETE',
+        url: `/users/${userId[0]}`,
         auth: bearerToken,
         headers: headers,
         timeout: 120000,
@@ -118,7 +139,7 @@ Cypress.Commands.add('deleteUserById', () => {
 
 module.exports = {
   randomisedEmail,
-  randomisedUpdatedEmail,
+  updatedEmail,
   headers,
   bearerToken,
 };

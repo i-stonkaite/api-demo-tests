@@ -2,7 +2,7 @@ import { headers, bearerToken } from '../../support/commands';
 
 describe('Given the "Delete user" endpoint', () => {
   before(() => {
-    cy.postWithValidData();
+    cy.createUserWithValidData();
   });
 
   context('When I send DELETE request to /users endpoint', () => {
@@ -11,7 +11,6 @@ describe('Given the "Delete user" endpoint', () => {
       cy.getUserByRandomisedEmail()
         .then((response) => {
           expect(response.status).eq(200);
-          //Always fails
           // expect(response.duration).to.not.be.greaterThan(200);
           const getCreatedUserId = cy.get(response.body.data[0].id);
         })
@@ -27,7 +26,6 @@ describe('Given the "Delete user" endpoint', () => {
           })
             .should((response) => {
               expect(response.status).eq(204);
-              //Always fails
               // expect(response.duration).to.not.be.greaterThan(200);
             })
             .then(() => {
