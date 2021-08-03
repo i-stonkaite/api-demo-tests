@@ -12,14 +12,14 @@ const errorResponseBlankInputFields = require('../../fixtures/users.json').data
 
 describe('Given the "Create a new user" endpoint', () => {
   context('When I send POST request to /users endpoint', () => {
-    xit('Then if an INVALID token is used, I should NOT be able to create a new user', () => {
+    it('Then if an INVALID token is used, I should NOT be able to create a new user', () => {
       //A new user is created with valid data and token
       cy.postWithInvalidToken().should((response) => {
         expect(response.status).eq(401);
       });
     });
 
-    xit('Then if a valid token is used but data fields are left blank, I should NOT be able to create a new user', () => {
+    it('Then if a valid token is used but data fields are left blank, I should NOT be able to create a new user', () => {
       // A new user is created with valid data and token
       cy.postWithValidTokenAndEmptyData().should((response) => {
         expect(response.status).eq(422);
@@ -29,7 +29,7 @@ describe('Given the "Create a new user" endpoint', () => {
       });
     });
 
-    xit('Then if valid token and valid data are used, I should be able to create a new user', () => {
+    it('Then if valid token and valid data are used, I should be able to create a new user', () => {
       //A new user is created with valid data and token
       cy.postWithValidData()
         .should((response) => {
@@ -51,7 +51,7 @@ describe('Given the "Create a new user" endpoint', () => {
         });
     });
 
-    xit('Then if I attempt to repeatedly post the same data, an error should be displayed', () => {
+    it('Then if I attempt to repeatedly post the same data, an error should be displayed', () => {
       cy.postWithValidData().should((response) => {
         expect(response.status).eq(422);
         expect(JSON.stringify(response.body.data)).eq(
@@ -62,7 +62,7 @@ describe('Given the "Create a new user" endpoint', () => {
   });
 
   context('When I send UPDATE request to /users endpoint', () => {
-    xit('Then if a valid token is used, I should be able to UPDATE a user', () => {
+    it('Then if a valid token is used, I should be able to UPDATE a user', () => {
       //This part finds an ID of a user created in a previous test
       cy.getUserByRandomisedEmail()
         .then((response) => {
@@ -102,7 +102,7 @@ describe('Given the "Create a new user" endpoint', () => {
   });
 
   context('When I send DELETE request to /users endpoint', () => {
-    xit('Then if valid token is used, I should be able to DELETE a new user', () => {
+    it('Then if valid token is used, I should be able to DELETE a new user', () => {
       //This part finds an ID of a user created in a previous test
       cy.getUserByUpdatedEmail()
         .then((response) => {

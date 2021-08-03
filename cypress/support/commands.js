@@ -96,6 +96,26 @@ Cypress.Commands.add('postWithInvalidToken', () => {
   cy.request(postWithInvalidToken);
 });
 
+Cypress.Commands.add('deleteUserById', () => {
+  cy.getUserByRandomisedEmail()
+    .then((response) => {
+      expect(response.status).eq(200);
+      const getCreatedUserId = cy.get(response.body.data[0].id);
+    })
+    .then((getCreatedUserId) => {
+      cy.request({
+        method: 'DELETE',
+        url: `/users/${getCreatedUserId[0]}`,
+        auth: bearerToken,
+        headers: headers,
+        timeout: 120000,
+        failOnStatusCode: false,
+      }).should((response) => {
+        expect(response.status).eq(204);
+      });
+    });
+});
+
 module.exports = {
   randomisedEmail,
   randomisedUpdatedEmail,
