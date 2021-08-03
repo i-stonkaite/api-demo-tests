@@ -1,9 +1,4 @@
-import {
-  randomisedEmail,
-  randomisedUpdatedEmail,
-  headers,
-  bearerToken,
-} from '../../support/commands';
+import { randomisedEmail } from '../../support/commands';
 
 const errorResponseEmailHasBeenTaken = require('../../fixtures/users.json').data
   .errorResponseEmailHasBeenTaken;

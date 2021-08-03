@@ -2,20 +2,20 @@ const getUsersEndpoint = require('../../fixtures/users.json').data.getUsers;
 
 describe('Given the "Get user details" endpoint', () => {
   context('When I send GET /users request', () => {
-    xit('Then max response time should be less than 200 ms', () => {
+    it('Then max response time should be less than 200 ms', () => {
       cy.request(getUsersEndpoint).should((response) => {
         expect(response.duration).to.not.be.greaterThan(200);
       });
     });
 
-    xit('Then HTTP status code should be 200', () => {
+    it('Then HTTP status code should be 200', () => {
       cy.request(getUsersEndpoint).should((response) => {
         expect(response.status).eq(200);
       });
     });
 
     // an ID of a valid already existing value is taken for the test to avoid hardcoding
-    xit('Then a single user should be found by their unique ID', () => {
+    it('Then a single user should be found by their unique ID', () => {
       cy.request(getUsersEndpoint)
         .should((response) => {
           expect(response.status).eq(200);
@@ -33,7 +33,7 @@ describe('Given the "Get user details" endpoint', () => {
     });
 
     // an email of a valid already existing value is taken for the test to avoid hardcoding
-    xit('Then a single user should be found by their unique email address', () => {
+    it('Then a single user should be found by their unique email address', () => {
       cy.request(getUsersEndpoint)
         .should((response) => {
           expect(response.status).eq(200);
@@ -52,7 +52,7 @@ describe('Given the "Get user details" endpoint', () => {
         });
     });
 
-    xit('Then every user object should contain 5 keys: id, name, email, gender, status', () => {
+    it('Then every user object should contain 5 keys: id, name, email, gender, status', () => {
       cy.request(getUsersEndpoint).should((response) => {
         expect(response.status).eq(200);
         Cypress._.each(response.body.data, (user) => {
@@ -68,7 +68,7 @@ describe('Given the "Get user details" endpoint', () => {
     });
 
     // iterated though the every object returned to make sure it is populated with data of a chosen type
-    xit('Then every user object returned should be populated with valid data', () => {
+    it('Then every user object returned should be populated with valid data', () => {
       cy.request(getUsersEndpoint).should((response) => {
         expect(response.status).eq(200);
         Cypress._.each(response.body.data, (user) => {
