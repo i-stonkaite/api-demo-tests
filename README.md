@@ -1,19 +1,19 @@
-# api-demo-tests to test the following API: https://gorest.co.in
+# API test automation demo project for gorest (https://gorest.co.in)
 
 ## Description
 
-The goal of the project is to demonstrate the ability to perform API testing and its automation.
+The goal of the project is to demonstrate the ability to perform API testing and it's automation.
 
 ## Prerequisites
 
-1. Make sure you have node.js installed (https://nodejs.org/en/download/current/)
+1. Install node.js (https://nodejs.org/en/download/current/)
 2. Install cypress (preferably via npm) (https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements)
 3. Text editor (e.g. Visual Studio Code)
 
 ## Installation
 
 1. Download repo
-2. Install node_modules in project's directory:
+2. Install node_modules in project's root directory:
    npm install
 
 ## Scripts
