@@ -18,16 +18,19 @@ The goal of the project is to demonstrate the ability to perform API testing and
 
 ## Scripts
 
-First script allows running tests via UI provided by cypress:
+First script runs all the tests in the browser via Cypress GUI:
 
-1. Navigate to a project's folder
-2. Paste the following to the terminal: npm cypress:open
-3. Once Cypress window opens, double click on a single test for it to run, or click on "Run 4 integration specs" link for all tests to run within the directory
+1. Navigate to a project's directory
+2. Paste the following to the terminal: npm run cy:open
+3. Once a UI window opens, click on single test file to see it run, or click on "Run 4 integration specs" to run all the tests
 
-The following script runs all tests via the command line:
+Second script runs all tests via the command line:
 
-1. Navigate to a project's folder
-2. Paste the following to the terminal: npm cypress:run
+1. Navigate to a project's directory
+2. Paste the following to the terminal: npm run cy:run
+3. If you're using VSC, please use the following command:
+   <!--- npx cypress run --spec 'cypress/integration/**/*.spec.js' --->
+   (the command is commented out to avoid Markdown)
 
 ## Support
 

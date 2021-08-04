@@ -1,4 +1,8 @@
-import { randomisedEmail } from '../../support/commands';
+import {
+  randomisedEmail,
+  createUserWithValidData,
+  getUserByRandomisedEmail,
+} from '../../support/commands';
 
 const errorResponseEmailHasBeenTaken = require('../../fixtures/users.json').data
   .errorResponseEmailHasBeenTaken;
@@ -9,7 +13,15 @@ describe('Given the "Create a new user" endpoint', () => {
   context('When I send POST request to /users endpoint', () => {
     //data created for the test is deleted once the test is finished
     after(() => {
-      cy.deleteUserById();
+      cy.request(getUserByRandomisedEmail)
+        .then((response) => {
+          expect(response.status).eq(200);
+          const userId = cy.get(response.body.data[0].id);
+        })
+        .then((userId) => {
+          userId = userId[0];
+          cy.deleteUserById(userId);
+        });
     });
 
     it('Then if an invalid token is used, I should not be able to create a new user', () => {
@@ -30,7 +42,7 @@ describe('Given the "Create a new user" endpoint', () => {
     });
 
     it('Then if valid token and valid data are used, I should be able to create a new user', () => {
-      cy.createUserWithValidData()
+      cy.request(createUserWithValidData)
         .should((response) => {
           expect(response.status).eq(201);
           // expect(response.duration).to.not.be.greaterThan(200);
@@ -52,7 +64,7 @@ describe('Given the "Create a new user" endpoint', () => {
     });
 
     it('Then if I attempt to repeatedly create a user with the same data, an error should be displayed', () => {
-      cy.createUserWithValidData().should((response) => {
+      cy.request(createUserWithValidData).should((response) => {
         expect(response.status).eq(422);
         expect(JSON.stringify(response.body.data)).eq(
           JSON.stringify(errorResponseEmailHasBeenTaken)

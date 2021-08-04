@@ -1,9 +1,4 @@
-import {
-  updatedEmail,
-  headers,
-  bearerToken,
-  randomisedEmail,
-} from '../../support/commands';
+import { updatedEmail, headers, bearerToken } from '../../support/commands';
 
 describe('Given the "Update user details" endpoint', () => {
   context('When I send UPDATE request to /users endpoint', () => {

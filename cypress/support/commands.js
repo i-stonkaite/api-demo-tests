@@ -54,7 +54,7 @@ const createUserWithValidData = {
   auth: bearerToken,
   body: {
     name: 'testName',
-    email: randomisedEmail,
+    email: `${randomisedEmail}`,
     gender: 'male',
     status: 'active',
   },
@@ -97,24 +97,17 @@ Cypress.Commands.add('createUserWithInvalidToken', () => {
   cy.request(createUserWithInvalidToken);
 });
 
-Cypress.Commands.add('deleteUserById', () => {
-  cy.getUserByRandomisedEmail()
-    .then((response) => {
-      expect(response.status).eq(200);
-      const userId = cy.get(response.body.data[0].id);
-    })
-    .then((userId) => {
-      cy.request({
-        method: 'DELETE',
-        url: `/users/${userId[0]}`,
-        auth: bearerToken,
-        headers: headers,
-        timeout: 120000,
-        failOnStatusCode: false,
-      }).should((response) => {
-        expect(response.status).eq(204);
-      });
-    });
+Cypress.Commands.add('deleteUserById', (userId) => {
+  cy.request({
+    method: 'DELETE',
+    url: `/users/${userId}`,
+    auth: bearerToken,
+    headers: headers,
+    timeout: 120000,
+    failOnStatusCode: false,
+  }).should((response) => {
+    expect(response.status).eq(204);
+  });
 });
 
 Cypress.Commands.add('deleteUserByUpdatedEmail', () => {
@@ -142,4 +135,7 @@ module.exports = {
   updatedEmail,
   headers,
   bearerToken,
+  createUserWithValidData,
+  getUserByRandomisedEmail,
+  headers,
 };
